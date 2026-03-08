@@ -1,0 +1,10 @@
+{
+ "id": "org.wlh.sports",
+ "version": "2.0.0",
+ "name": "WLH Ultimate Sports",
+ "description": "Auto updating sports streams",
+ "resources": ["stream"],
+ "types": ["channel"],
+ "catalogs": [],
+ "idPrefixes": ["sport"]
+}
