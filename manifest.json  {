@@ -1,0 +1,10 @@
+{
+  "id": "org.wlh.sports",
+  "version": "1.0.0",
+  "name": "WLH Sports Streams",
+  "description": "Live sports streams for major leagues",
+  "resources": ["stream"],
+  "types": ["channel"],
+  "catalogs": [],
+  "idPrefixes": ["wlh"]
+}
