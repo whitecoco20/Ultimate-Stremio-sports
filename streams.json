@@ -1,0 +1,23 @@
+[
+  {
+    "id": "wlh_nfl",
+    "title": "NFL Live",
+    "streams": [
+      { "title": "Primary", "url": "https://example-stream-link.com/nfl.m3u8" }
+    ]
+  },
+  {
+    "id": "wlh_nba",
+    "title": "NBA Live",
+    "streams": [
+      { "title": "Primary", "url": "https://example-stream-link.com/nba.m3u8" }
+    ]
+  },
+  {
+    "id": "wlh_mlb",
+    "title": "MLB Live",
+    "streams": [
+      { "title": "Primary", "url": "https://example-stream-link.com/mlb.m3u8" }
+    ]
+  }
+]
