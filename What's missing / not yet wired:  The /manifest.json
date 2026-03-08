@@ -1,0 +1,10 @@
+{
+"id": "org.wlh.ultimate.sports",
+"version": "2.0.0",
+"name": "WLH Ultimate Sports",
+"description": "Live sports streams aggregator",
+"resources": ["stream"],
+"types": ["tv"],
+"catalogs": [],
+"idPrefixes": ["sport"]
+}
