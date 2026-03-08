@@ -1,38 +1,28 @@
 const { addonBuilder, serveHTTP } = require("stremio-addon-sdk")
-const fs = require("fs")
-require("./scheduler")
+const cron=require("node-cron")
 
-const manifest = require("./manifest.json")
+const fetchGames=require("./scheduleFetcher")
+const getCatalog=require("./catalogBuilder")
+const findStreams=require("./streamFinder")
 
-const builder = new addonBuilder(manifest)
+const manifest=require("./manifest.json")
 
-builder.defineStreamHandler(args => {
+const builder=new addonBuilder(manifest)
 
- let streams = []
+cron.schedule("*/10 * * * *",async()=>{
+ await fetchGames()
+})
 
- try {
+builder.defineCatalogHandler(args=>{
+ return Promise.resolve(getCatalog())
+})
 
-  const data = JSON.parse(
-   fs.readFileSync("streamsCache.json")
-  )
+builder.defineStreamHandler(async args=>{
 
-  const filtered = data.filter(c => c.id === args.id)
+ const streams=await findStreams(args.id)
 
-  streams = filtered.map(c => ({
-   title: c.title,
-   url: c.url
-  }))
-
- } catch (err) {
-
-  streams = []
-
- }
-
- return Promise.resolve({ streams })
+ return {streams}
 
 })
 
-const addonInterface = builder.getInterface()
-
-serveHTTP(addonInterface, { port: process.env.PORT || 7000 })
+serveHTTP(builder.getInterface(),{port:process.env.PORT||7000})
