@@ -1,32 +1,38 @@
 const { addonBuilder, serveHTTP } = require("stremio-addon-sdk")
-const express = require("express")
 const fs = require("fs")
+require("./scheduler")
 
 const manifest = require("./manifest.json")
-const streamsData = require("./streams.json")
 
 const builder = new addonBuilder(manifest)
 
-builder.defineStreamHandler((args) => {
-    const match = streamsData.find(s => s.id === args.id)
+builder.defineStreamHandler(args => {
 
-    if (!match) {
-        return Promise.resolve({ streams: [] })
-    }
+ let streams = []
 
-    return Promise.resolve({
-        streams: match.streams
-    })
+ try {
+
+  const data = JSON.parse(
+   fs.readFileSync("streamsCache.json")
+  )
+
+  const filtered = data.filter(c => c.id === args.id)
+
+  streams = filtered.map(c => ({
+   title: c.title,
+   url: c.url
+  }))
+
+ } catch (err) {
+
+  streams = []
+
+ }
+
+ return Promise.resolve({ streams })
+
 })
 
 const addonInterface = builder.getInterface()
 
-const app = express()
-
-serveHTTP(addonInterface, { port: 7000 })
-
-app.get("/", (req, res) => {
-    res.send("WLH Sports Addon Running")
-})
-
-app.listen(7000)
+serveHTTP(addonInterface, { port: process.env.PORT || 7000 })
